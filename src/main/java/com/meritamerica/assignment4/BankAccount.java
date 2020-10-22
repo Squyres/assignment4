@@ -1,9 +1,9 @@
-package com.meritamerica.assignment3;
+package com.meritamerica.assignment4;
 
 import java.text.*;
 import java.util.*;
 
-public class BankAccount {
+public abstract class BankAccount {
 	double balance;
 	double interestRate;
 	Date accountOpenedOn;
@@ -96,4 +96,11 @@ public class BankAccount {
 		}
 
 	}
+	public void addTransaction(Transaction transaction) {
+		
+	}
+	public List<Transaction> getTransactions() {
+		
+	}
+
 }

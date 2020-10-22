@@ -1,5 +1,5 @@
 
-package com.meritamerica.assignment3;
+package com.meritamerica.assignment4;
 
 
 public class CDOffering {
