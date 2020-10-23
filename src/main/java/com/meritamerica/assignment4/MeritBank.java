@@ -202,9 +202,14 @@ class MeritBank {
 
 	public static boolean processTransaction(Transaction transaction)
 			throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException {
-		if(transaction.getAmount() > 1000) {
-			FraudQueue.addTransaction(transaction);
-			return false;
+		if(transaction.getAmount() >= 1000) {
+			throw new ExceedsFraudSuspicionLimitException();
+		}
+		if(transaction.getAmount() <= transaction.getSourceAccount().getBalance()) {
+			throw new ExceedsAvailableBalanceException();
+		}
+		if(transaction.getAmount() <= 0) {
+			throw new NegativeAmountException();
 		}
 		return true;
 	}
