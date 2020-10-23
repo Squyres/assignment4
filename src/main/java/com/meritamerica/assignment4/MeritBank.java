@@ -185,18 +185,38 @@ class MeritBank {
 	}
 
 	public static double recursiveFutureValue(double amount, int years, double interestRate) {
-
+		
 	}
 
 	public static boolean processTransaction(Transaction transaction)
 			throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException {
-
+		if(transaction.getAmount() > 1000) {
+			FraudQueue.addTransaction(transaction);
+			return false;
+		}
+		return true;
 	}
 	public static FraudQueue getFraudQueue() {
-		
+		return FraudQueue();
 	}
 	public static BankAccount getBankAccount(long accountId) {
-		
+		for(int i = 0; i < AccountHoldersArray.length; i++){
+			for(int j = 0; i < AccountHoldersArray[i].checkingArray.length; j++) {
+				if(AccountHoldersArray[i].checkingArray[j].accountNumber == accountId) {
+					return AccountHoldersArray[i].checkingArray[j];
+				}
+			}
+			for(int j = 0; i < AccountHoldersArray[i].savingsArray.length; j++) {
+				if(AccountHoldersArray[i].savingsArray[j].accountNumber == accountId) {
+					return AccountHoldersArray[i].savingsArray[j];
+				}
+			}
+			for(int j = 0; i < AccountHoldersArray[i].cdAccountArray.length; j++) {
+				if(AccountHoldersArray[i].cdAccountArray[j].accountNumber == accountId) {
+					return AccountHoldersArray[i].cdAccountArray[j];
+				}
+			}
+		}
+		return null;
 	}
-
 }
