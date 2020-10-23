@@ -91,14 +91,26 @@ class MeritBank {
 				int numOfChecking = Integer.valueOf(bufferedReader.readLine());
 				for (int j = 0; j < numOfChecking; j++) {
 					acctH.addCheckingAccount(CheckingAccount.readFromString(bufferedReader.readLine()));
+					int numOfTransactions = Integer.valueOf(bufferedReader.readLine());
+					for(int l = 0; l < numOfTransactions; l++) {
+						
+					}
 				}
 				int numOfSavings = Integer.valueOf(bufferedReader.readLine());
 				for (int k = 0; k < numOfSavings; k++) {
 					acctH.addSavingsAccount(SavingsAccount.readFromString(bufferedReader.readLine()));
+					int numOfTransactions = Integer.valueOf(bufferedReader.readLine());
+					for(int l = 0; l < numOfTransactions; l++) {
+						
+					}
 				}
 				int numOfCD = Integer.valueOf(bufferedReader.readLine());
 				for (int m = 0; m < numOfCD; m++) {
 					acctH.addCDAccount(CDAccount.readFromString(bufferedReader.readLine()));
+					int numOfTransactions = Integer.valueOf(bufferedReader.readLine());
+					for(int l = 0; l < numOfTransactions; l++) {
+						
+					}
 				}
 				newAccountHolders[i] = acctH;
 			}
