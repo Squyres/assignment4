@@ -17,13 +17,17 @@ public abstract class BankAccount {
 	}
 
 	BankAccount(double balance, double interestRate, Date accountOpenedOn) {
-		this(balance, interestRate);
+		this.balance = balance;
+		this.accountNumber = MeritBank.getNextAccountNumber();
+		this.interestRate = interestRate;
 		this.accountOpenedOn = accountOpenedOn;
 	}
 
 	public BankAccount(long accountNumber, double balance, double interestRate, Date accountOpenedOn) {
-		this(balance, interestRate, accountOpenedOn);
+		this.balance = balance;
+		this.interestRate = interestRate;
 		this.accountNumber = accountNumber;
+		this.accountOpenedOn = accountOpenedOn;
 	}
 
 	public long getAccountNumber() {
@@ -42,7 +46,7 @@ public abstract class BankAccount {
 		return accountOpenedOn;
 	}
 
-	public boolean withdraw(double amount) {
+	public boolean withdraw(double amount) throws ExceedsFraudSuspicionLimitException {
 		if (amount <= balance && amount > 0) {
 			this.balance -= amount;
 			System.out.println("Withdrawn amount: $" + amount);
@@ -52,7 +56,7 @@ public abstract class BankAccount {
 		return false;
 	}
 
-	public boolean deposit(double amount) {
+	public boolean deposit(double amount) throws ExceedsFraudSuspicionLimitException {
 		if (amount <= 0) {
 			System.out.println("Please deposit sufficient amount");
 			return false;
@@ -85,7 +89,10 @@ public abstract class BankAccount {
 			double balance = Double.parseDouble(holding[1]);
 			double interestRate = Double.parseDouble(holding[2]);
 			Date accountOpenedOn = date.parse(holding[3]);
-			return new BankAccount(accountNumber, balance, interestRate, accountOpenedOn);
+			if (interestRate == 0.01) {
+				return new SavingsAccount(accountNumber, balance, interestRate, accountOpenedOn);
+			} else
+				return new CheckingAccount(accountNumber, balance, interestRate, accountOpenedOn);
 
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -96,11 +103,14 @@ public abstract class BankAccount {
 		}
 
 	}
+
 	public void addTransaction(Transaction transaction) {
 		
 	}
+
 	public List<Transaction> getTransactions() {
-		return Transaction
+		List<Transaction> newL = new ArrayList<Transaction>();
+		return newL;
 	}
 
 }

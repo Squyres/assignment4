@@ -28,17 +28,18 @@ class CDAccount extends BankAccount {
 		return date;
 	}
 
-	public double futureValue() {
-		return super.futureValue(term);
+	public double futureValue() throws ExceedsFraudSuspicionLimitException {
+		throw new ExceedsFraudSuspicionLimitException();
 	}
 
 	@Override
-	public boolean withdraw(double amount) {
-		return false;
+	public boolean withdraw(double amount) throws ExceedsFraudSuspicionLimitException {
+		throw new ExceedsFraudSuspicionLimitException();
 	}
+
 	@Override
-	public boolean deposit(double amount) {
-		return false;
+	public boolean deposit(double amount) throws ExceedsFraudSuspicionLimitException {
+		throw new ExceedsFraudSuspicionLimitException();
 	}
 
 	public static CDAccount readFromString(String accountData) throws ParseException, NumberFormatException {

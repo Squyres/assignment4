@@ -1,15 +1,17 @@
 package com.meritamerica.assignment4;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+//import java.text.SimpleDateFormat;
 import java.util.*;
 
 public abstract class Transaction {
-	private BankAccount sourceAccount;
-	private BankAccount targetAccount;
-	private double amount;
-	private String reason;
-	private Date transactionDate;
+	protected BankAccount sourceAccount;
+	protected BankAccount targetAccount;
+	protected double amount;
+	protected String reason;
+	protected Date transactionDate;
+	protected boolean isProcessed;
+
 	public BankAccount getSourceAccount() {
 		return sourceAccount;
 	}
@@ -43,49 +45,54 @@ public abstract class Transaction {
 	}
 
 	public String writeToString() {
-
+		String write = "";
+		if (sourceAccount == targetAccount)
+			write += "-1,";
+		else
+			write += sourceAccount.getAccountNumber() + ",";
+		write += targetAccount.getAccountNumber() + "," + amount + "," + transactionDate;
+		return write;
 	}
 
-	public static Transaction readFromString(String transactionDataString) throws ParseException {
-		String [] tran = transactionDataString.split(",");
-    	SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy");
-    	int source = Integer.parseInt(tran[0]);
-    	int target = Integer.parseInt(tran[1]);
-    	double amount = Double.parseDouble(tran[2]);
-    	Date accountOpenedOn = date.parse(tran[3]);
-    	boolean isDeposit = false;
-    	if(amount > 0) {
-    		isDeposit = true;
-    	}
-    	if(source == -1) {
-    		source = target;
-    	}
-    	if(isDeposit) {
-    		TransferTransaction newTT = new TransferTransaction(MeritBank.getBankAccount(source), MeritBank.getBankAccount(target), amount);
-    		newTT.setTransactionDate(accountOpenedOn);
-    		return newTT;
-    	} else {
-    		WithdrawTransaction newWT = new WithdrawTransaction(MeritBank.getBankAccount(target), amount);
-    		newWT.setTransactionDate(accountOpenedOn);
-    		newWT.setSourceAccount(MeritBank.getBankAccount(source));
-    		return newWT;
-    	}
+	public static Transaction readFromString(String transactionDataString) throws ParseException { // buggy
+		// String[] tran = transactionDataString.split(",");
+		// SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy");
+		// int source = Integer.parseInt(tran[0]);
+		// int target = Integer.parseInt(tran[1]);
+		// double amount = Double.parseDouble(tran[2]);
+		// Date accountOpenedOn = date.parse(tran[3]);
+		// boolean isDeposit = false;
+		// if (amount >= 0) {
+		// isDeposit = true;
+		// }
+		// if (isDeposit) {
+		// TransferTransaction newTT = new
+		// TransferTransaction(MeritBank.getBankAccount(target),
+		// MeritBank.getBankAccount(source), amount);
+		// newTT.setTransactionDate(accountOpenedOn);
+		// return newTT;
+		// } else if (!isDeposit) {
+		// WithdrawTransaction newWT = new
+		// WithdrawTransaction(MeritBank.getBankAccount(target), amount);
+		// newWT.setTransactionDate(accountOpenedOn);
+		// return newWT;
+		// } else
+		return null;
 	}
 
-	public abstract void process() throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException {
-		
-	}
+	public abstract void process()
+			throws NegativeAmountException, ExceedsAvailableBalanceException, ExceedsFraudSuspicionLimitException;
 
 	public boolean isProcessedByFraudTeam() {
-
+		return isProcessed;
 	}
 
 	public void setProcessedByFraudTeam(boolean isProcessed) {
-
+		this.isProcessed = isProcessed;
 	}
 
 	public String getRejectionReason() {
-		return
+		return reason;
 	}
 
 	public void setRejectionReason(String reason) {
